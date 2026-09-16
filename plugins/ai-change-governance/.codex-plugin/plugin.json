@@ -1,0 +1,18 @@
+{
+  "name": "ai-change-governance",
+  "version": "0.3.0",
+  "description": "Portable test-first gates and AI change-ledger auditing",
+  "author": {
+    "name": "Local developer"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AI Change Governance",
+    "shortDescription": "Portable test gates and change evidence.",
+    "longDescription": "Install one shared test-first and append-only change-governance engine for Codex, Claude Code, Gemini CLI, or custom agent harnesses.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": ["Architecture", "Engineering", "Testing", "Governance", "Hooks", "Audit"],
+    "defaultPrompt": "Use $change-governance to add test-first and change-ledger safeguards to this project."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "write_file|replace|run_shell_command",
+        "hooks": [
+          {
+            "name": "ai-change-governance-pre",
+            "type": "command",
+            "command": "python3 /absolute/path/to/plugin/scripts/governance_hook.py hook --provider gemini --event pre",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "write_file|replace|run_shell_command",
+        "hooks": [
+          {
+            "name": "ai-change-governance-post",
+            "type": "command",
+            "command": "python3 /absolute/path/to/plugin/scripts/governance_hook.py hook --provider gemini --event post",
+            "timeout": 30000
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "roles": {
+    "principal-architecture-role": ["architecture-ready", "accepted"],
+    "sse-role": ["implementation-complete"],
+    "tester-role": ["verified", "changes-requested"]
+  },
+  "transitions": {
+    "intake": ["architecture-ready"],
+    "architecture-ready": ["implementation-complete"],
+    "implementation-complete": ["verified", "changes-requested"],
+    "changes-requested": ["implementation-complete"],
+    "verified": ["accepted"],
+    "accepted": []
+  },
+  "required_evidence": {
+    "architecture-ready": ["outcome", "acceptance_criteria"],
+    "implementation-complete": ["evidence"],
+    "verified": ["evidence"],
+    "changes-requested": ["evidence"],
+    "accepted": ["evidence"]
+  }
+}

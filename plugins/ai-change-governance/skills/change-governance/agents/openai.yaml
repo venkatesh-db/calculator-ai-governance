@@ -1,0 +1,6 @@
+interface:
+  display_name: "Change Governance"
+  short_description: "Portable test gates and AI change auditing"
+  default_prompt: "Use $change-governance to add test-first and change-ledger safeguards to this project."
+policy:
+  allow_implicit_invocation: true

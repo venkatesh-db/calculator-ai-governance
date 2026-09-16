@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "test_first": {
+    "protected_files": {
+      "cli.py": {
+        "watch": ["cli.py", "test*.py", "tests/**/*.py"],
+        "max_age_seconds": 3600,
+        "valid_exit_codes": [0],
+        "assertion_failure_markers": ["FAILED (failures="]
+      }
+    }
+  },
+  "audit": {
+    "ledger_file": "AGENTS.md",
+    "changelog_file": ".ai-governance/AI_CHANGELOG.jsonl",
+    "suffixes": [".py", ".js", ".ts", ".tsx", ".java", ".go", ".rs", ".sh", ".json", ".yaml", ".yml", ".toml"],
+    "names": ["SKILL.md"],
+    "excluded_paths": ["AGENTS.md", ".ai-governance/AI_CHANGELOG.jsonl"]
+  }
+}

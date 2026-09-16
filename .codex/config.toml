@@ -1,0 +1,4 @@
+# Project-local Codex safety policy.
+# Human users retain their normal editor and shell permissions.
+sandbox_mode = "read-only"
+approval_policy = "never"

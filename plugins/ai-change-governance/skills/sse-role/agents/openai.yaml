@@ -1,0 +1,6 @@
+interface:
+  display_name: "SSE Role"
+  short_description: "Implement and hand off verified software changes"
+  default_prompt: "Use $sse-role to implement this architecture-ready work item and prepare tester evidence."
+policy:
+  allow_implicit_invocation: true

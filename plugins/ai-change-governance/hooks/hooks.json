@@ -1,0 +1,31 @@
+{
+  "description": "Portable protected-file gate and AI change-ledger audit.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "apply_patch|Edit|Write|MultiEdit|Bash|Shell|exec_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/scripts/governance_hook.py\" hook --provider codex --event pre",
+            "timeout": 30,
+            "statusMessage": "Checking change policy"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "apply_patch|Edit|Write|MultiEdit|Bash|Shell|exec_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/scripts/governance_hook.py\" hook --provider codex --event post",
+            "timeout": 30,
+            "statusMessage": "Recording change evidence"
+          }
+        ]
+      }
+    ]
+  }
+}

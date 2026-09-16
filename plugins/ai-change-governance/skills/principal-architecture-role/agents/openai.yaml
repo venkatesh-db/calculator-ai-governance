@@ -1,0 +1,6 @@
+interface:
+  display_name: "Principal Architecture Role"
+  short_description: "Frame architecture and acceptance decisions"
+  default_prompt: "Use $principal-architecture-role to frame this work item and its acceptance criteria."
+policy:
+  allow_implicit_invocation: true

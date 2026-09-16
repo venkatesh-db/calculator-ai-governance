@@ -1,0 +1,4 @@
+interface:
+  display_name: "Calculator Engineering"
+  short_description: "Build precise extensible calculator behavior"
+  default_prompt: "Use $calculator-engineering to implement and verify a calculator enhancement."

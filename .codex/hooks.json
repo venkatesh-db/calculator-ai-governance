@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "apply_patch|Write|Edit|MultiEdit|exec_command|Bash|Shell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .codex/hooks/cli_test_gate.py hook"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "apply_patch|Write|Edit|MultiEdit|exec_command|Bash|Shell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .codex/hooks/post_change_audit.py"
+          }
+        ]
+      }
+    ]
+  }
+}
