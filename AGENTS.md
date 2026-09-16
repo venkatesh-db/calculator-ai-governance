@@ -192,6 +192,7 @@ The ledger begins when this policy was introduced. Existing files are represente
 | 2026-09-16 | MODIFIED | `plugins/ai-change-governance/skills/change-governance/SKILL.md` | Routed governance users to the principal architecture, SSE, and tester role workflow. |
 | 2026-09-16 | ADDED | `.github/workflows/pull-request-ci.yml` | Added pull-request tests and an isolated read-only `openai/codex-action@v1` review that posts evidence back to the PR. |
 | 2026-09-16 | ADDED | `.github/codex/prompts/pull-request-review.md` | Added the trusted Codex review scope, security boundaries, finding format, and verification expectations. |
+| 2026-09-16 | MODIFIED | `.github/workflows/pull-request-ci.yml` | Exposed the GitHub checkout through a temporary `calculator` package path so CI preserves the public import contract regardless of repository name. |
 
 ### Tracking-policy history
 

@@ -26,10 +26,13 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Expose checkout as calculator package
+        run: ln -s "$GITHUB_WORKSPACE" "$RUNNER_TEMP/calculator"
+
       - name: Run calculator tests
         env:
           PYTHONDONTWRITEBYTECODE: "1"
-          PYTHONPATH: ".."
+          PYTHONPATH: ${{ runner.temp }}
         run: python -B -m unittest discover -s . -p 'test*.py' -q
 
       - name: Run governance plugin tests
