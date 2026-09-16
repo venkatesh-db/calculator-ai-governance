@@ -34,6 +34,8 @@ The user is the final decision-maker for requirements and architectural tradeoff
 - `.codex/AI_CHANGELOG.jsonl`: append-only machine-readable evidence for AI code changes and ledger verification
 - `plugins/ai-change-governance/`: reusable, vendor-neutral test-first gate and AI change-audit plugin with Codex, Claude Code, Gemini CLI, and generic adapters
 - `CODE_REVIEW_EVIDENCE.md`: evidence from the initial code-quality and behavior review
+- `.github/workflows/pull-request-ci.yml`: pull-request calculator/plugin validation, read-only Codex review, and review-comment publication
+- `.github/codex/prompts/pull-request-review.md`: trusted, repository-owned Codex pull-request review instructions
 
 Keep these responsibilities distinct. Domain behavior belongs in the package, while argument parsing, presentation, streams, and process exit codes belong in the CLI adapter.
 
@@ -122,6 +124,8 @@ Documentation-only changes do not require ledger entries unless they add, modify
 - `plugins/ai-change-governance/skills/tester-role/SKILL.md`: independent behavioral verification and change-request guidance
 - `plugins/ai-change-governance/skills/tester-role/agents/openai.yaml`: tester skill discovery metadata
 - `plugins/ai-change-governance/skills/references/organizational-workflow.md`: shared role lifecycle, work-item contract, commands, and operating boundaries
+- `.github/workflows/pull-request-ci.yml`: GitHub Actions pull-request tests, JSON validation, read-only Codex review, and isolated feedback publication
+- `.github/codex/prompts/pull-request-review.md`: prompt-injection-resistant review scope and output contract for Codex CI
 
 ### Code-file change ledger
 
@@ -186,6 +190,9 @@ The ledger begins when this policy was introduced. Existing files are represente
 | 2026-09-16 | MODIFIED | `plugins/ai-change-governance/tests/test_installer.py` | Verified each host installation includes the shared role-workflow reference. |
 | 2026-09-16 | ADDED | `plugins/ai-change-governance/skills/references/organizational-workflow.md` | Added the shared architecture-to-acceptance workflow, feedback loop, work-item examples, and role boundaries. |
 | 2026-09-16 | MODIFIED | `plugins/ai-change-governance/skills/change-governance/SKILL.md` | Routed governance users to the principal architecture, SSE, and tester role workflow. |
+| 2026-09-16 | ADDED | `.github/workflows/pull-request-ci.yml` | Added pull-request tests and an isolated read-only `openai/codex-action@v1` review that posts evidence back to the PR. |
+| 2026-09-16 | ADDED | `.github/codex/prompts/pull-request-review.md` | Added the trusted Codex review scope, security boundaries, finding format, and verification expectations. |
+| 2026-09-16 | MODIFIED | `.github/workflows/pull-request-ci.yml` | Exposed the GitHub checkout through a temporary `calculator` package path so CI preserves the public import contract regardless of repository name. |
 
 ### Tracking-policy history
 

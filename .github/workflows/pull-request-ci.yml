@@ -1,0 +1,96 @@
+name: Pull request CI and Codex review
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: pr-ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: Calculator and plugin tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out pull request
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Expose checkout as calculator package
+        run: ln -s "$GITHUB_WORKSPACE" "$RUNNER_TEMP/calculator"
+
+      - name: Run calculator tests
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+          PYTHONPATH: ${{ runner.temp }}
+        run: python -B -m unittest discover -s . -p 'test*.py' -q
+
+      - name: Run governance plugin tests
+        run: python -B -m unittest discover -s plugins/ai-change-governance/tests -p 'test*.py' -q
+
+      - name: Validate JSON configuration
+        run: |
+          python -m json.tool plugins/ai-change-governance/portable-plugin.json >/dev/null
+          python -m json.tool plugins/ai-change-governance/workflow/role-workflow.json >/dev/null
+          python -m json.tool .codex/hooks.json >/dev/null
+
+  codex_review:
+    name: Codex pull request review
+    needs: tests
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      final_message: ${{ steps.run_codex.outputs.final-message }}
+    steps:
+      - name: Check out pull request merge
+        uses: actions/checkout@v5
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Run read-only Codex review
+        id: run_codex
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt-file: .github/codex/prompts/pull-request-review.md
+          output-file: codex-output.md
+          codex-args: '["--ephemeral"]'
+          sandbox: read-only
+          safety-strategy: drop-sudo
+
+  post_codex_feedback:
+    name: Post Codex feedback
+    needs: codex_review
+    if: needs.codex_review.result == 'success' && needs.codex_review.outputs.final_message != ''
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Comment on pull request
+        uses: actions/github-script@v7
+        env:
+          CODEX_FINAL_MESSAGE: ${{ needs.codex_review.outputs.final_message }}
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: process.env.CODEX_FINAL_MESSAGE,
+            });
